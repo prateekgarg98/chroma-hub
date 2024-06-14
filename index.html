@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Management System</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS for additional styling -->
+    <style>
+        /* Add custom styles here */
+        body {
+            padding-top: 70px; /* Offset the navbar height */
+        }
+        .container {
+            max-width: 800px;
+        }
+        h1, h2 {
+            margin-bottom: 20px;
+        }
+        form {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">Stock Management</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/add_product">Add Product</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/purchase">Purchase</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/reports">Reports</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <span class="navbar-text mr-3">
+                        Welcome, <strong>John Doe</strong> <!-- Replace with actual username -->
+                    </span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main content area -->
+    <div class="container">
+        <h1>Welcome to Stock Management System</h1>
+
+        <!-- Purchase Page Section -->
+        <h2>Purchase Page</h2>
+        <form id="purchaseForm">
+            <div class="form-group">
+                <label for="customerName">Customer Name</label>
+                <input type="text" class="form-control" id="customerName" placeholder="Enter customer name" required>
+            </div>
+            <div class="form-group">
+                <label for="productName">Product Name</label>
+                <input type="text" class="form-control" id="productName" placeholder="Enter product name" required>
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity</label>
+                <input type="number" class="form-control" id="quantity" placeholder="Enter quantity" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Record Purchase</button>
+        </form>
+
+        <!-- Products List Section -->
+        <h2>Products</h2>
+        <ul id="productList" class="list-group"></ul>
+    </div>
+
+    <!-- Bootstrap JS and additional scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Custom JavaScript for interactivity -->
+    <script>
+        // JavaScript code for handling form submission and API calls will go here
+
+        // Example function to handle purchase form submission
+        document.getElementById('purchaseForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const customerName = document.getElementById('customerName').value;
+            const productName = document.getElementById('productName').value;
+            const quantity = document.getElementById('quantity').value;
+
+            // Perform actions like API calls to record the purchase
+            // This is placeholder code; replace with actual implementation
+
+            // Clear form fields after submission
+            document.getElementById('customerName').value = '';
+            document.getElementById('productName').value = '';
+            document.getElementById('quantity').value = '';
+        });
+
+        // Function to fetch and display products
+        function fetchProducts() {
+            fetch('/api/products')
+            .then(response => response.json())
+            .then(products => {
+                const productList = document.getElementById('productList');
+                productList.innerHTML = '';
+                products.forEach(product => {
+                    const li = document.createElement('li');
+                    li.textContent = `${product.name} - Code: ${product.code}, Quantity: ${product.quantity}, Price: ${product.price}`;
+                    li.classList.add('list-group-item');
+                    productList.appendChild(li);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching products:', error);
+                alert('There was an error fetching products.');
+            });
+        }
+
+        // Call fetchProducts() on page load
+        window.onload = fetchProducts;
+    </script>
+</body>
+</html>
